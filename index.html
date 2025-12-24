@@ -124,16 +124,15 @@
             for(let f of snowFlakes) { ctx.moveTo(f.x, f.y); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2); f.y += 1 + f.d; if(f.y > canvas.height) f.y = 0; }
             ctx.fill(); createSnow(); requestAnimationFrame(drawSnow);
         }
-        drawSnow();
-    </script>function next(curr, nextStep) {
-    // This starts the music on the first tap
-    if (curr === 1) {
-        document.getElementById('bg-music').play();
-    }
-    document.getElementById('step' + curr).style.display = 'none';
-    document.getElementById('step' + nextStep).style.display = 'block';
-}
-    
+        drawSnow(); 
+        function next(curr, nextStep) {
+            if (curr === 1) {
+                document.getElementById('bg-music').play();
+            }
+            document.getElementById('step' + curr).style.display = 'none';
+            document.getElementById('step' + nextStep).style.display = 'block';
+        }
+    </script>
 </body>
-                                                                                                                                                  </html>
-                                                                                                                    
+</html>
+ 
