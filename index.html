@@ -3,164 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Gift for Sreelekshmi</title>
+    <title>For Sreelekshmi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&family=Georgia&display=swap" rel="stylesheet">
     <style>
-        body, html { 
-            height: 100%; margin: 0; background: #ffffff; 
-            display: flex; justify-content: center; align-items: center; 
-            font-family: 'Georgia', serif; overflow: hidden; text-align: center; 
+        :root {
+            --primary: #ff4d6d;
+            --bg-gradient: linear-gradient(135deg, #4c0080 0%, #bc13fe 100%);
         }
+
+        body, html {
+            height: 100%; margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-gradient);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; text-align: center; color: white;
+        }
+
         #snow-canvas { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
-        
-        .card { 
-            position: relative; z-index: 2; background: rgba(255, 255, 255, 0.95); 
-            padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            max-width: 85%; border: 2px solid #ff4d4d; animation: fadeIn 1s ease-in-out;
+
+        .container {
+            z-index: 10; width: 90%; max-width: 400px;
+            padding: 20px; border-radius: 20px;
+            animation: fadeIn 1s ease-in;
         }
 
-        /* Snowman & Animations */
-        .snowman-container { margin-bottom: 10px; position: relative; }
-        .loop-animation { animation: bounce 2s infinite ease-in-out; width: 120px; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Section 1: Gift Box */
+        .gift-img { width: 150px; cursor: pointer; animation: bounce 2s infinite; }
+        .tap-me { background: #ff4d6d; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
 
-        /* Card Game Styles */
-        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; justify-items: center; margin-top: 20px; }
-        .flip-card { width: 80px; height: 110px; perspective: 1000px; cursor: pointer; }
+        /* Section 2: Snowman */
+        .snowman-img { width: 180px; margin-bottom: 20px; }
+        .open-btn { 
+            background: white; color: #bc13fe; border: none; 
+            padding: 12px 40px; border-radius: 30px; 
+            font-weight: bold; font-size: 18px; cursor: pointer;
+        }
+
+        /* Section 3: Cards */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .flip-card { height: 100px; perspective: 1000px; cursor: pointer; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { 
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
-            display: flex; align-items: center; justify-content: center; border-radius: 10px; 
+        .front, .back {
+            position: absolute; width: 100%; height: 100%; 
+            backface-visibility: hidden; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
         }
-        .flip-card-front { background: #ff4d4d; color: white; font-size: 30px; border: 2px solid #d42424; }
-        .flip-card-back { background: #fff; color: #d42424; transform: rotateY(180deg); border: 2px solid #ff4d4d; font-size: 14px; font-weight: bold; }
+        .front { background: white; color: var(--primary); font-size: 40px; }
+        .back { background: white; color: #444; transform: rotateY(180deg); font-size: 14px; font-weight: bold; border: 2px solid var(--primary); }
 
-        /* Book Styles */
-        .book-container { perspective: 1000px; margin-top: 20px; }
-        .book { 
-            width: 200px; height: 260px; position: relative; transform-style: preserve-3d; 
-            transition: transform 1.5s; margin: 0 auto; cursor: pointer;
+        /* Section 4: The Book */
+        .book-container { background: white; border-radius: 20px; padding: 15px; color: #444; position: relative; }
+        .book-img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+        .letter-content { 
+            display: none; font-family: 'Georgia', serif; 
+            text-align: left; line-height: 1.6; font-size: 15px;
+            padding: 10px; background: #fdfdfd; border-radius: 10px;
         }
-        .book.open { transform: rotateY(-140deg); }
-        .book-cover, .book-page { 
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
-            backface-visibility: hidden; border-radius: 5px 15px 15px 5px; 
-        }
-        .book-cover { 
-            background: #d42424; color: white; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; z-index: 2; border-left: 10px solid #8b1a1a;
-        }
-        .book-page { 
-            background: white; color: #444; padding: 20px; box-sizing: border-box; 
-            transform: rotateY(180deg); border: 1px solid #ddd; font-size: 15px; line-height: 1.6;
-        }
+        .letter-content.active { display: block; animation: slideUp 0.8s ease; }
 
-        .btn { background: #ff4d4d; color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .timer { font-size: 18px; color: #ff4d4d; font-weight: bold; margin-bottom: 10px; }
-        h1 { color: #d42424; font-size: 24px; margin: 10px 0; }
+        /* Animations */
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 36px; margin-bottom: 5px; }
+        .timer { font-size: 14px; opacity: 0.8; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <canvas id="snow-canvas"></canvas>
 
-    <div id="section1" class="card">
-        <div id="timer" class="timer">Loading...</div>
-        <div class="snowman-container">
-            <img src="https://img.icons8.com/color/144/snowman.png" class="loop-animation" alt="Snowman">
-        </div>
-        <p>A little something for you...</p>
-        <button class="btn" onclick="showCards()">Click to Enter</button>
+    <div id="step1" class="container">
+        <p class="timer" id="time-display"></p>
+        <h1>For someone special</h1>
+        <div class="tap-me">Tap me!</div><br>
+        <img src="https://img.icons8.com/plasticine/200/gift.png" class="gift-img" onclick="next(1, 2)">
     </div>
 
-    <div id="section2" class="card" style="display:none;">
+    <div id="step2" class="container" style="display:none;">
+        <img src="https://img.icons8.com/color/200/snowman.png" class="snowman-img">
+        <h2>This Christmas, something special for you</h2>
+        <button class="open-btn" onclick="next(2, 3)">Open it</button>
+    </div>
+
+    <div id="step3" class="container" style="display:none;">
         <h1>Just for you</h1>
-        <p>Tap each card to reveal a secret...</p>
+        <p>I don't need a gift, because...</p>
         <div class="card-grid">
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">YOU</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">ARE</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">SPECIAL</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">TO</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">ME</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">YOU</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">ARE</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">MY</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">CUTEST</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">GIFT 🎁</div></div></div>
         </div>
     </div>
 
-    <div id="section3" class="card" style="display:none;">
-        <h1>HAPPY CHRISTMAS</h1>
+    <div id="step4" class="container" style="display:none;">
+        <h1 style="color: white;">Merry Christmas to my Cutiepie</h1>
         <div class="book-container">
-            <div id="book" class="book" onclick="this.classList.toggle('open')">
-                <div class="book-cover">
-                    <span>🎁</span>
-                    <p>Tap to Open</p>
-                </div>
-                <div class="book-page">
-                    <p>To my dearest Sreelekshmi,</p>
-                    <p>I wanted to make something unique because you are my favorite person. You make every day feel like a holiday.</p>
-                    <p><strong>You are my once-in-a-lifetime.</strong></p>
-                </div>
+            <img id="book-cover" src="https://img.icons8.com/bubbles/200/santa.png" class="book-img">
+            <div class="tap-me" id="tap-to-read" onclick="showLetter()">Tap to read</div>
+            <div id="letter" class="letter-content">
+                <p>To my dearest Sreelekshmi,</p>
+                <p>This Christmas, I just want you to know how special you are to me. You are not just a part of my life, you are the reason behind my smiles.</p>
+                <p>I will always try my best to be there for you. Thank you for being you. ❤️</p>
+                <p><strong>Merry Christmas! 🎄✨</strong></p>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. SNOWFALL
+        // NAVIGATION
+        function next(curr, nextStep) {
+            document.getElementById('step' + curr).style.display = 'none';
+            document.getElementById('step' + nextStep).style.display = 'block';
+        }
+
+        let flipped = 0;
+        function flip(el) {
+            if(!el.classList.contains('flipped')) {
+                el.classList.add('flipped');
+                flipped++;
+                if(flipped === 5) setTimeout(() => next(3, 4), 1500);
+            }
+        }
+
+        function showLetter() {
+            document.getElementById('book-cover').style.display = 'none';
+            document.getElementById('tap-to-read').style.display = 'none';
+            document.getElementById('letter').classList.add('active');
+        }
+
+        // TIME DISPLAY
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time-display').innerText = "Today " + now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0') + " pm";
+        }
+        setInterval(updateTime, 1000); updateTime();
+
+        // SNOWFALL
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
+        let flakes = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
+        window.onresize = resize; resize();
 
-        function createParticles() {
-            if (particles.length < 100) {
-                particles.push({ x: Math.random() * canvas.width, y: 0, r: Math.random() * 4 + 1, d: Math.random() * 1 });
-            }
+        function createFlakes() {
+            if(flakes.length < 100) flakes.push({x: Math.random()*canvas.width, y: 0, r: Math.random()*3+1, d: Math.random()*1});
         }
-
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 77, 77, 0.6)'; // Reddish snow to match theme
+            ctx.fillStyle = "white";
             ctx.beginPath();
-            for (let p of particles) {
-                ctx.moveTo(p.x, p.y);
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-                p.y += 1 + p.d;
-                if (p.y > canvas.height) p.y = 0;
+            for(let f of flakes) {
+                ctx.moveTo(f.x, f.y); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+                f.y += 1 + f.d; if(f.y > canvas.height) f.y = 0;
             }
-            ctx.fill();
-            createParticles();
-            requestAnimationFrame(draw);
+            ctx.fill(); createFlakes(); requestAnimationFrame(draw);
         }
         draw();
-
-        // 2. TIMER
-        function updateTimer() {
-            const now = new Date();
-            document.getElementById('timer').innerText = now.toLocaleTimeString();
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-
-        // 3. NAVIGATION & GAME LOGIC
-        let flips = 0;
-        function showCards() {
-            document.getElementById('section1').style.display = 'none';
-            document.getElementById('section2').style.display = 'block';
-        }
-
-        function flip(card) {
-            if (!card.classList.contains('flipped')) {
-                card.classList.add('flipped');
-                flips++;
-                if (flips === 5) {
-                    setTimeout(() => {
-                        document.getElementById('section2').style.display = 'none';
-                        document.getElementById('section3').style.display = 'block';
-                    }, 1500);
-                }
-            }
-        }
     </script>
 </body>
-</html>
+                </html>
+                
