@@ -3,62 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas Surprise for Sreelekshmi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&family=Georgia&display=swap" rel="stylesheet">
+    <title>Christmas Gift for Sreelekshmi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&family=Georgia&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --primary-red: #ff4d6d; 
-            --purple-bg: linear-gradient(135deg, #4c0080 0%, #bc13fe 100%); 
-        }
-
-        body, html { 
-            height: 100%; margin: 0; font-family: 'Quicksand', sans-serif; 
-            background: var(--purple-bg); display: flex; justify-content: center; 
-            align-items: center; overflow: hidden; text-align: center; color: white; 
-        }
-
-        #snow-canvas { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
-
-        .container { z-index: 10; width: 90%; max-width: 400px; animation: fadeIn 0.8s ease; }
-
-        /* Timer and Header */
-        .timer { font-size: 14px; opacity: 0.8; margin-bottom: 10px; font-weight: bold; }
-        h1 { font-family: 'Dancing Script', cursive; font-size: 32px; margin: 10px 0; }
-
-        /* Interactive Elements */
-        .gift-img { width: 140px; cursor: pointer; animation: bounce 2s infinite; margin: 20px 0; }
-        .tap-me-tag { background: var(--primary-red); padding: 6px 16px; border-radius: 20px; font-weight: bold; display: inline-block; font-size: 14px; margin-bottom: 10px; }
+        :root { --main-red: #ff4d6d; --snow-blue: #b3e5fc; }
         
-        /* Snowman Section */
-        .snowman-box img { width: 160px; animation: bounce 2s infinite; }
-        .action-btn { background: white; color: #9c27b0; border: none; padding: 12px 35px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        body, html { 
+            height: 100%; margin: 0; background: #ffffff; 
+            font-family: 'Quicksand', sans-serif; overflow: hidden; 
+            display: flex; justify-content: center; align-items: center; text-align: center;
+        }
 
-        /* Card Game */
-        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .flip-card { height: 100px; perspective: 1000px; cursor: pointer; }
+        /* Snow Canvas - Higher Z-Index to ensure visibility */
+        #snow-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999; }
+
+        .container { z-index: 10; width: 95%; max-width: 500px; padding: 20px; animation: fadeIn 0.8s ease; }
+
+        /* Step 1 & 2: Enlarged Elements */
+        .gift-img, .snowman-img { width: 220px; cursor: pointer; animation: bounce 2s infinite; margin: 20px 0; }
+        .tap-tag { background: var(--main-red); color: white; padding: 10px 25px; border-radius: 30px; font-weight: bold; font-size: 18px; display: inline-block; }
+        
+        h1 { font-family: 'Dancing Script', cursive; font-size: 42px; color: #333; margin: 15px 0; }
+        h2 { color: #555; font-size: 24px; margin-bottom: 25px; }
+
+        .big-btn { 
+            background: var(--main-red); color: white; border: none; 
+            padding: 15px 45px; border-radius: 40px; font-weight: bold; 
+            font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        /* Step 3: Card Grid */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px; }
+        .flip-card { height: 130px; perspective: 1000px; cursor: pointer; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .front { background: white; color: var(--primary-red); font-size: 35px; }
-        .back { background: white; color: #444; transform: rotateY(180deg); font-size: 12px; font-weight: bold; border: 2px solid var(--primary-red); padding: 5px; line-height: 1.2; }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px solid #eee; }
+        .front { background: #f9f9f9; color: var(--main-red); font-size: 45px; }
+        .back { background: #fff; color: #333; transform: rotateY(180deg); font-size: 14px; font-weight: 700; border: 2px solid var(--main-red); }
 
-        /* The 3D Book Reveal */
-        .book { width: 280px; height: 360px; margin: 0 auto; position: relative; perspective: 1500px; cursor: pointer; }
+        /* Step 4: The 3D Book Reveal */
+        .book { width: 320px; height: 420px; margin: 0 auto; position: relative; perspective: 1500px; cursor: pointer; }
         .book-inner { width: 100%; height: 100%; position: relative; transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; transform-origin: left; }
-        .book.open .book-inner { transform: rotateY(-140deg); }
-        .book-front, .book-back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; border-radius: 10px; }
-        .book-front { background: #fff; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 5px solid white; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
-        .book-front img { width: 90%; height: auto; }
-        .book-back { 
-            background: #fff; color: #333; transform: rotateY(180deg); padding: 25px; 
-            text-align: left; font-family: 'Georgia', serif; font-size: 15px; 
-            line-height: 1.6; display: flex; flex-direction: column; 
-            justify-content: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); 
-        }
+        .book.open .book-inner { transform: rotateY(-145deg); }
+        .book-front, .book-back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .book-front { background: #fff; z-index: 2; border: 1px solid #eee; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .book-front img { width: 85%; height: auto; }
+        .book-back { background: #fff; color: #333; transform: rotateY(180deg); padding: 30px; text-align: left; font-family: 'Georgia', serif; font-size: 18px; line-height: 1.7; display: flex; flex-direction: column; justify-content: center; border: 1px solid #eee; }
 
-        /* Animations */
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -66,23 +59,20 @@
     <canvas id="snow-canvas"></canvas>
 
     <div id="step1" class="container">
-        <p class="timer" id="live-time"></p>
         <h1>For someone special</h1>
-        <div class="tap-me-tag">Tap me!</div><br>
+        <div class="tap-tag">Tap the Gift!</div><br>
         <img src="https://img.icons8.com/plasticine/200/gift.png" class="gift-img" onclick="nextStep(1, 2)">
     </div>
 
     <div id="step2" class="container" style="display:none;">
-        <div class="snowman-box">
-            <img src="https://img.icons8.com/color/200/snowman.png">
-        </div>
+        <img src="https://img.icons8.com/color/200/snowman.png" class="snowman-img">
         <h2>This Christmas, something special for you</h2>
-        <button class="action-btn" onclick="nextStep(2, 3)">Open it</button>
+        <button class="big-btn" onclick="nextStep(2, 3)">Open it</button>
     </div>
 
     <div id="step3" class="container" style="display:none;">
         <h1>Just for you</h1>
-        <p>I don't need a gift, because...</p>
+        <p style="font-size: 18px; color: #666;">Tap each card...</p>
         <div class="card-grid">
             <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">YOU</div></div></div>
             <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">ARE</div></div></div>
@@ -93,59 +83,70 @@
     </div>
 
     <div id="step4" class="container" style="display:none;">
-        <h1>Merry Christmas to my Cutiepie</h1>
-        <div id="book-element" class="book" onclick="this.classList.toggle('open')">
+        <h1 style="font-size: 32px; margin-bottom: 25px;">Merry Christmas!</h1>
+        <div class="book" onclick="this.classList.toggle('open')">
             <div class="book-inner">
                 <div class="book-front">
                     <img src="https://img.icons8.com/bubbles/200/santa.png">
-                    <p style="color: #444; font-weight: bold;">Tap to Read 📖</p>
+                    <p style="color: #666; font-weight: bold; font-size: 18px;">Tap to Open 📖</p>
                 </div>
                 <div class="book-back">
                     <p>To my dearest Sreelekshmi,</p>
-                    <p>This Christmas, I just want you to know how special you are to me. You are the reason behind my smiles and my favorite thought every day.</p>
-                    <p>I promise to always try my best for you. Thank you for being in my life.</p>
-                    <p><strong>I love you more than you know! ❤️🎄</strong></p>
+                    <p>This Christmas, I want you to know how special you are to me. You are the reason behind my smiles.</p>
+                    <p>Thank you for being in my life. I love you! ❤️🎄</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Navigation Logic
         function nextStep(current, next) {
             document.getElementById('step' + current).style.display = 'none';
             document.getElementById('step' + next).style.display = 'block';
         }
 
-        // Card Game Logic
-        let flipCount = 0;
+        let flips = 0;
         function handleFlip(card) {
             if (!card.classList.contains('flipped')) {
                 card.classList.add('flipped');
-                flipCount++;
-                if (flipCount === 5) {
-                    setTimeout(() => nextStep(3, 4), 1800);
-                }
+                flips++;
+                if (flips === 5) setTimeout(() => nextStep(3, 4), 1800);
             }
         }
 
-        // Live Timer Logic
-        function updateTime() {
-            const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes().toString().padStart(2, '0');
-            let ampm = hours >= 12 ? 'pm' : 'am';
-            hours = hours % 12 || 12;
-            document.getElementById('live-time').innerText = `Today ${hours}:${minutes} ${ampm}`;
-        }
-        setInterval(updateTime, 1000); updateTime();
-
-        // Snowfall Canvas Logic
+        // SNOWFALL LOGIC - Light Blue Snow
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let snowFlakes = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
-        function createSnow() { if(snowFlakes.length < 100) snowFlakes.push({x: Math.random()*canvas.width, y: 0, r: Math.random()*3+1, d: Math.random()*1}); }
-        function drawSnow
-        
+
+        function createSnow() {
+            if(snowFlakes.length < 120) {
+                snowFlakes.push({
+                    x: Math.random() * canvas.width, 
+                    y: Math.random() * canvas.height, 
+                    r: Math.random() * 4 + 1, 
+                    d: Math.random() * 1
+                });
+            }
+        }
+
+        function drawSnow() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#b3e5fc"; // Light blue snow
+            ctx.beginPath();
+            for(let f of snowFlakes) {
+                ctx.moveTo(f.x, f.y);
+                ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+                f.y += 1 + f.d;
+                if(f.y > canvas.height) f.y = -10;
+            }
+            ctx.fill();
+            createSnow();
+            requestAnimationFrame(drawSnow);
+        }
+        drawSnow();
+    </script>
+</body>
+</html>
