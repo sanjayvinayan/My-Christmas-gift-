@@ -3,72 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Sreelekshmi</title>
+    <title>Christmas Surprise for Sreelekshmi</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&family=Georgia&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --bg-gradient: linear-gradient(135deg, #4c0080 0%, #bc13fe 100%);
+        :root { 
+            --primary-red: #ff4d6d; 
+            --purple-bg: linear-gradient(135deg, #4c0080 0%, #bc13fe 100%); 
         }
 
-        body, html {
-            height: 100%; margin: 0;
-            font-family: 'Quicksand', sans-serif;
-            background: var(--bg-gradient);
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden; text-align: center; color: white;
+        body, html { 
+            height: 100%; margin: 0; font-family: 'Quicksand', sans-serif; 
+            background: var(--purple-bg); display: flex; justify-content: center; 
+            align-items: center; overflow: hidden; text-align: center; color: white; 
         }
 
         #snow-canvas { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
 
-        .container {
-            z-index: 10; width: 90%; max-width: 400px;
-            padding: 20px; border-radius: 20px;
-            animation: fadeIn 1s ease-in;
-        }
+        .container { z-index: 10; width: 90%; max-width: 400px; animation: fadeIn 0.8s ease; }
 
-        /* Section 1: Gift Box */
-        .gift-img { width: 150px; cursor: pointer; animation: bounce 2s infinite; }
-        .tap-me { background: #ff4d6d; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+        /* Timer and Header */
+        .timer { font-size: 14px; opacity: 0.8; margin-bottom: 10px; font-weight: bold; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 32px; margin: 10px 0; }
 
-        /* Section 2: Snowman */
-        .snowman-img { width: 180px; margin-bottom: 20px; }
-        .open-btn { 
-            background: white; color: #bc13fe; border: none; 
-            padding: 12px 40px; border-radius: 30px; 
-            font-weight: bold; font-size: 18px; cursor: pointer;
-        }
+        /* Interactive Elements */
+        .gift-img { width: 140px; cursor: pointer; animation: bounce 2s infinite; margin: 20px 0; }
+        .tap-me-tag { background: var(--primary-red); padding: 6px 16px; border-radius: 20px; font-weight: bold; display: inline-block; font-size: 14px; margin-bottom: 10px; }
+        
+        /* Snowman Section */
+        .snowman-box img { width: 160px; animation: bounce 2s infinite; }
+        .action-btn { background: white; color: #9c27b0; border: none; padding: 12px 35px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
-        /* Section 3: Cards */
+        /* Card Game */
         .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
         .flip-card { height: 100px; perspective: 1000px; cursor: pointer; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        .front, .back {
-            position: absolute; width: 100%; height: 100%; 
-            backface-visibility: hidden; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .front { background: white; color: var(--primary); font-size: 40px; }
-        .back { background: white; color: #444; transform: rotateY(180deg); font-size: 14px; font-weight: bold; border: 2px solid var(--primary); }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .front { background: white; color: var(--primary-red); font-size: 35px; }
+        .back { background: white; color: #444; transform: rotateY(180deg); font-size: 12px; font-weight: bold; border: 2px solid var(--primary-red); padding: 5px; line-height: 1.2; }
 
-        /* Section 4: The Book */
-        .book-container { background: white; border-radius: 20px; padding: 15px; color: #444; position: relative; }
-        .book-img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
-        .letter-content { 
-            display: none; font-family: 'Georgia', serif; 
-            text-align: left; line-height: 1.6; font-size: 15px;
-            padding: 10px; background: #fdfdfd; border-radius: 10px;
+        /* The 3D Book Reveal */
+        .book { width: 280px; height: 360px; margin: 0 auto; position: relative; perspective: 1500px; cursor: pointer; }
+        .book-inner { width: 100%; height: 100%; position: relative; transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; transform-origin: left; }
+        .book.open .book-inner { transform: rotateY(-140deg); }
+        .book-front, .book-back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; border-radius: 10px; }
+        .book-front { background: #fff; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 5px solid white; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
+        .book-front img { width: 90%; height: auto; }
+        .book-back { 
+            background: #fff; color: #333; transform: rotateY(180deg); padding: 25px; 
+            text-align: left; font-family: 'Georgia', serif; font-size: 15px; 
+            line-height: 1.6; display: flex; flex-direction: column; 
+            justify-content: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); 
         }
-        .letter-content.active { display: block; animation: slideUp 0.8s ease; }
 
         /* Animations */
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        h1 { font-family: 'Dancing Script', cursive; font-size: 36px; margin-bottom: 5px; }
-        .timer { font-size: 14px; opacity: 0.8; margin-bottom: 20px; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -76,95 +66,86 @@
     <canvas id="snow-canvas"></canvas>
 
     <div id="step1" class="container">
-        <p class="timer" id="time-display"></p>
+        <p class="timer" id="live-time"></p>
         <h1>For someone special</h1>
-        <div class="tap-me">Tap me!</div><br>
-        <img src="https://img.icons8.com/plasticine/200/gift.png" class="gift-img" onclick="next(1, 2)">
+        <div class="tap-me-tag">Tap me!</div><br>
+        <img src="https://img.icons8.com/plasticine/200/gift.png" class="gift-img" onclick="nextStep(1, 2)">
     </div>
 
     <div id="step2" class="container" style="display:none;">
-        <img src="https://img.icons8.com/color/200/snowman.png" class="snowman-img">
+        <div class="snowman-box">
+            <img src="https://img.icons8.com/color/200/snowman.png">
+        </div>
         <h2>This Christmas, something special for you</h2>
-        <button class="open-btn" onclick="next(2, 3)">Open it</button>
+        <button class="action-btn" onclick="nextStep(2, 3)">Open it</button>
     </div>
 
     <div id="step3" class="container" style="display:none;">
         <h1>Just for you</h1>
         <p>I don't need a gift, because...</p>
         <div class="card-grid">
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">YOU</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">ARE</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">MY</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">CUTEST</div></div></div>
-            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">GIFT 🎁</div></div></div>
+            <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">YOU</div></div></div>
+            <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">ARE</div></div></div>
+            <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">MY</div></div></div>
+            <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">CUTEST</div></div></div>
+            <div class="flip-card" onclick="handleFlip(this)"><div class="flip-card-inner"><div class="front">❤️</div><div class="back">GIFT 🎁</div></div></div>
         </div>
     </div>
 
     <div id="step4" class="container" style="display:none;">
-        <h1 style="color: white;">Merry Christmas to my Cutiepie</h1>
-        <div class="book-container">
-            <img id="book-cover" src="https://img.icons8.com/bubbles/200/santa.png" class="book-img">
-            <div class="tap-me" id="tap-to-read" onclick="showLetter()">Tap to read</div>
-            <div id="letter" class="letter-content">
-                <p>To my dearest Sreelekshmi,</p>
-                <p>This Christmas, I just want you to know how special you are to me. You are not just a part of my life, you are the reason behind my smiles.</p>
-                <p>I will always try my best to be there for you. Thank you for being you. ❤️</p>
-                <p><strong>Merry Christmas! 🎄✨</strong></p>
+        <h1>Merry Christmas to my Cutiepie</h1>
+        <div id="book-element" class="book" onclick="this.classList.toggle('open')">
+            <div class="book-inner">
+                <div class="book-front">
+                    <img src="https://img.icons8.com/bubbles/200/santa.png">
+                    <p style="color: #444; font-weight: bold;">Tap to Read 📖</p>
+                </div>
+                <div class="book-back">
+                    <p>To my dearest Sreelekshmi,</p>
+                    <p>This Christmas, I just want you to know how special you are to me. You are the reason behind my smiles and my favorite thought every day.</p>
+                    <p>I promise to always try my best for you. Thank you for being in my life.</p>
+                    <p><strong>I love you more than you know! ❤️🎄</strong></p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // NAVIGATION
-        function next(curr, nextStep) {
-            document.getElementById('step' + curr).style.display = 'none';
-            document.getElementById('step' + nextStep).style.display = 'block';
+        // Navigation Logic
+        function nextStep(current, next) {
+            document.getElementById('step' + current).style.display = 'none';
+            document.getElementById('step' + next).style.display = 'block';
         }
 
-        let flipped = 0;
-        function flip(el) {
-            if(!el.classList.contains('flipped')) {
-                el.classList.add('flipped');
-                flipped++;
-                if(flipped === 5) setTimeout(() => next(3, 4), 1500);
+        // Card Game Logic
+        let flipCount = 0;
+        function handleFlip(card) {
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flipCount++;
+                if (flipCount === 5) {
+                    setTimeout(() => nextStep(3, 4), 1800);
+                }
             }
         }
 
-        function showLetter() {
-            document.getElementById('book-cover').style.display = 'none';
-            document.getElementById('tap-to-read').style.display = 'none';
-            document.getElementById('letter').classList.add('active');
-        }
-
-        // TIME DISPLAY
+        // Live Timer Logic
         function updateTime() {
             const now = new Date();
-            document.getElementById('time-display').innerText = "Today " + now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0') + " pm";
+            let hours = now.getHours();
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12 || 12;
+            document.getElementById('live-time').innerText = `Today ${hours}:${minutes} ${ampm}`;
         }
         setInterval(updateTime, 1000); updateTime();
 
-        // SNOWFALL
+        // Snowfall Canvas Logic
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
-        let flakes = [];
+        let snowFlakes = [];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
-
-        function createFlakes() {
-            if(flakes.length < 100) flakes.push({x: Math.random()*canvas.width, y: 0, r: Math.random()*3+1, d: Math.random()*1});
-        }
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "white";
-            ctx.beginPath();
-            for(let f of flakes) {
-                ctx.moveTo(f.x, f.y); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
-                f.y += 1 + f.d; if(f.y > canvas.height) f.y = 0;
-            }
-            ctx.fill(); createFlakes(); requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
-</body>
-                </html>
-                
+        function createSnow() { if(snowFlakes.length < 100) snowFlakes.push({x: Math.random()*canvas.width, y: 0, r: Math.random()*3+1, d: Math.random()*1}); }
+        function drawSnow
+        
