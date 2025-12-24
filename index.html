@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Gift for Sreelekshmi</title>
+    <style>
+        body, html { 
+            height: 100%; margin: 0; background: #ffffff; 
+            display: flex; justify-content: center; align-items: center; 
+            font-family: 'Georgia', serif; overflow: hidden; text-align: center; 
+        }
+        #snow-canvas { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
+        
+        .card { 
+            position: relative; z-index: 2; background: rgba(255, 255, 255, 0.95); 
+            padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            max-width: 85%; border: 2px solid #ff4d4d; animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Snowman & Animations */
+        .snowman-container { margin-bottom: 10px; position: relative; }
+        .loop-animation { animation: bounce 2s infinite ease-in-out; width: 120px; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Card Game Styles */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; justify-items: center; margin-top: 20px; }
+        .flip-card { width: 80px; height: 110px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { 
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
+            display: flex; align-items: center; justify-content: center; border-radius: 10px; 
+        }
+        .flip-card-front { background: #ff4d4d; color: white; font-size: 30px; border: 2px solid #d42424; }
+        .flip-card-back { background: #fff; color: #d42424; transform: rotateY(180deg); border: 2px solid #ff4d4d; font-size: 14px; font-weight: bold; }
+
+        /* Book Styles */
+        .book-container { perspective: 1000px; margin-top: 20px; }
+        .book { 
+            width: 200px; height: 260px; position: relative; transform-style: preserve-3d; 
+            transition: transform 1.5s; margin: 0 auto; cursor: pointer;
+        }
+        .book.open { transform: rotateY(-140deg); }
+        .book-cover, .book-page { 
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
+            backface-visibility: hidden; border-radius: 5px 15px 15px 5px; 
+        }
+        .book-cover { 
+            background: #d42424; color: white; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; z-index: 2; border-left: 10px solid #8b1a1a;
+        }
+        .book-page { 
+            background: white; color: #444; padding: 20px; box-sizing: border-box; 
+            transform: rotateY(180deg); border: 1px solid #ddd; font-size: 15px; line-height: 1.6;
+        }
+
+        .btn { background: #ff4d4d; color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .timer { font-size: 18px; color: #ff4d4d; font-weight: bold; margin-bottom: 10px; }
+        h1 { color: #d42424; font-size: 24px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div id="section1" class="card">
+        <div id="timer" class="timer">Loading...</div>
+        <div class="snowman-container">
+            <img src="https://img.icons8.com/color/144/snowman.png" class="loop-animation" alt="Snowman">
+        </div>
+        <p>A little something for you...</p>
+        <button class="btn" onclick="showCards()">Click to Enter</button>
+    </div>
+
+    <div id="section2" class="card" style="display:none;">
+        <h1>Just for you</h1>
+        <p>Tap each card to reveal a secret...</p>
+        <div class="card-grid">
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">YOU</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">ARE</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">SPECIAL</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">TO</div></div></div>
+            <div class="flip-card" onclick="flip(this)"><div class="flip-card-inner"><div class="flip-card-front">?</div><div class="flip-card-back">ME</div></div></div>
+        </div>
+    </div>
+
+    <div id="section3" class="card" style="display:none;">
+        <h1>HAPPY CHRISTMAS</h1>
+        <div class="book-container">
+            <div id="book" class="book" onclick="this.classList.toggle('open')">
+                <div class="book-cover">
+                    <span>🎁</span>
+                    <p>Tap to Open</p>
+                </div>
+                <div class="book-page">
+                    <p>To my dearest Sreelekshmi,</p>
+                    <p>I wanted to make something unique because you are my favorite person. You make every day feel like a holiday.</p>
+                    <p><strong>You are my once-in-a-lifetime.</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. SNOWFALL
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function createParticles() {
+            if (particles.length < 100) {
+                particles.push({ x: Math.random() * canvas.width, y: 0, r: Math.random() * 4 + 1, d: Math.random() * 1 });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 77, 77, 0.6)'; // Reddish snow to match theme
+            ctx.beginPath();
+            for (let p of particles) {
+                ctx.moveTo(p.x, p.y);
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+                p.y += 1 + p.d;
+                if (p.y > canvas.height) p.y = 0;
+            }
+            ctx.fill();
+            createParticles();
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // 2. TIMER
+        function updateTimer() {
+            const now = new Date();
+            document.getElementById('timer').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 3. NAVIGATION & GAME LOGIC
+        let flips = 0;
+        function showCards() {
+            document.getElementById('section1').style.display = 'none';
+            document.getElementById('section2').style.display = 'block';
+        }
+
+        function flip(card) {
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flips++;
+                if (flips === 5) {
+                    setTimeout(() => {
+                        document.getElementById('section2').style.display = 'none';
+                        document.getElementById('section3').style.display = 'block';
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
